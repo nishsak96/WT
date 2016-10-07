@@ -48,5 +48,10 @@
 	<a href="signinins.php"><button type="submit" class="btn btn-default">Institute Login</button></a>
 	</p>
 
+	<br>
+	<p align="center">
+		Not registered yet? Please <a href="registration.php">Sign-in</a> here.
+	</p>
+
 </body>
 </html>

@@ -31,10 +31,15 @@
 	    	</div>
 	    </div>
    </div>
+
+
+
    <?php
     require 'connect.php';
+    session_start();
     if(isset($_POST['fname'])&&isset($_POST['lname'])&&isset($_POST['email'])&&isset($_POST['password'])&&isset($_POST['rpassword'])&&isset($_POST['mob']))
     {
+      $flag=0;
       $fname=$_POST['fname'];
       $lname=$_POST['lname'];
       $email=$_POST['email'];
@@ -43,27 +48,75 @@
       $mob=$_POST['mob'];
       if(!empty($fname)&&!empty($lname)&&!empty($email)&&!empty($password)&&!empty($rpassword)&&!empty($mob))
       {
-        if($password==$rpassword)
-        {
-          $password=sha1($password);
-          $uni=strtolower($uni=substr($fname,0,1).substr($lname,0,1).substr($email,0,1).substr($password,16,5).substr($mob,1,2));
-          echo '<p align="center"><b>This is your Unique Id: <i><u>'.$uni.'</u></i></b><br> Please Save it somewhere for future reference</p>';
-           $query='INSERT INTO `applicantbasic`(`Date`, `name`, `email`, `password`,`uniqueid`,`Mobile`) VALUES (\''.date("d/m/y").'\',\''.$fname.' '.$lname.'\',\''.$email.'\',\''.$password.'\',\''.$uni.'\',\''.$mob.'\''.')';
+        $query="SELECT `mobile` FROM `applicantbasic` WHERE `mobile`=".$mob."";
           $result=mysql_query($query);
-          echo '<p align="center">You are Registered. Please <a href="signin.php">Sign-in</a> now!</p>';
+          
+          if(mysql_num_rows($result)==0)
+          {
+
+            if(strlen($mob)!=10)
+            {
+              //echo '<p align="center">Enter only 10 digits</p>';
+              echo "<script>document.regForm.fname.value='".$fname."'</script>";
+              echo "<script>document.regForm.lname.value=".$lname."</script>";
+              echo "<script>document.regForm.email.value=".$email."</script>";
+              
+            }
+            if($password<8 && $rpassword<8)
+            {
+              //echo '<p align="center">Enter atleast 8  characters</p>';
+              echo "<script>document.regForm.fname.value=".$fname."</script>";
+              echo "<script>document.regForm.lname.value=".$lname."</script>";
+              echo "<script>document.regForm.mob.value=".$mob."</script>";
+              echo "<script>document.regForm.email.value=".$email."</script>";
+            }
+            else{
+
+           
+
+                  if($password==$rpassword)
+                  {
+                    $password=sha1($password);
+                    $flag=1;
+                    $uni=strtolower($uni=substr($fname,0,1).substr($lname,0,1).substr($email,0,1).substr($password,16,5).substr($mob,1,2));
+                    echo '<p align="center"><b>This is your Unique Id: <i><u>'.$uni.'</u></i></b><br> Please Save it somewhere for future reference</p>';
+                     $query='INSERT INTO `applicantbasic`(`Date`, `name`, `email`, `password`,`uniqueid`,`Mobile`) VALUES (\''.date("d/m/y").'\',\''.$fname.' '.$lname.'\',\''.$email.'\',\''.$password.'\',\''.$uni.'\',\''.$mob.'\''.')';
+                     $_SESSION['uniqueid']=$uni;
+                    $result=mysql_query($query);
+
+                    if(@$flag==1)
+                    {
+                      echo '<script>function dddd(){document.getElementById("abc").onclick = location.href="benefitgeneration.php";}</script>';
+                      echo "<div class='col-sm-offset-5 col-sm-12'><button type='button' class='btn btn-default' id='abc' onclick='dddd()'>Next >></button></div>";
+                    }
+                    //echo '<p align="center">You are Registered. Please <a href="signin.php">Sign-in</a> now!</p>';
+                  }
+                  else
+                  {
+                    //echo '<p align="center">Passwords do not match</p>';
+                    echo "<script>alert('Passwords do not match.')</script>";
+                    echo "<script>location.href='registration.php'</script>";
+                  }
+
+          }
         }
         else
         {
-          echo '<p align="center">Passwords do not match</p>';
-          //header('Location: registration.php');
+          echo "<script>alert('Mobile number already exists.')</script>";
         }
+
+
       }
       else
       {
-        echo '<p align="center">Fill all the fields properly!</p>';
+        //echo '<p align="center">Fill all the fields properly!</p>';
+        echo "<script>alert('Fill all the fields properly')</script>";
+        //echo "<script>location.href='registration.php'</script>";
         //header('Location: registration.php');
       }
+
     }
+
   ?>
 <br>
 <div class="container">
@@ -82,9 +135,9 @@
       </div>
     </div>
      <div class="form-group">
-      <label class="control-label col-sm-2" for="email">Mobile no.</label>
+      <label class="control-label col-sm-2">Mobile no.</label>
       <div class="col-sm-3">
-        <input type="number" class="form-control" name="mob" maxlength="10" placeholder="Enter 10 digit Mobile no." >
+        <input type="number" class="form-control" min="0000000000" name="mob" maxlength="10" placeholder="Enter 10 digit Mobile no." >
       </div>
     </div>
     <div class="form-group">
@@ -111,6 +164,12 @@
       </div>
     </div>
   </form>
+
+  <?php
+      
+  ?>
 </div>
 </body>
 </html>
+
+

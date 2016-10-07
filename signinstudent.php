@@ -58,7 +58,7 @@
 
 			if(!empty($uni)&&!empty($password))
 			{	
-					$password=sha1($password);
+					//$password=sha1($password);
 					$query='SELECT `password` FROM `applicantbasic` WHERE `UniqueId`=\''.$uni.'\'';
 					$result=mysql_query($query);
 
@@ -73,7 +73,7 @@
 						if($password==$data['password'])
 						{
 							session_start();
-							header('Location: portal.php');
+							header('Location: benefitgeneration.php');
 						}
 						else
 						{

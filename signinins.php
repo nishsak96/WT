@@ -72,7 +72,7 @@
             if($password==$data['password'])
             {
               session_start();
-              header('Location: portal.php');
+              header('Location: benefitgeneration.php');
             }
             else
             {
