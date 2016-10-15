@@ -137,7 +137,7 @@
      <div class="form-group">
       <label class="control-label col-sm-2">Mobile no.</label>
       <div class="col-sm-3">
-        <input type="number" class="form-control" min="0000000000" name="mob" maxlength="10" placeholder="Enter 10 digit Mobile no." >
+        <input type="tel" class="form-control" min="0000000000" name="mob" maxlength="10" placeholder="Enter 10 digit Mobile no." >
       </div>
     </div>
     <div class="form-group">
