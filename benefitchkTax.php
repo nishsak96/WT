@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>
-		Home-Reservation Portal
+		Tax-Reservation Portal
 	</title>
 
 
@@ -29,19 +29,55 @@
 	    			<a href="#" class="navbar-brand">Cosmic Developers</a>
 	    		</div>
 	    		<div>
-	    			<ul class="nav navbar-nav">
-	    				<li><a href="HomeLayout.html">Back to Home</a></li>
-	         </ul>
+	    			<?php 
+		    			$z=@$_COOKIE['loginins'];
+		    			if($z==1)
+		    			{
+		    				echo '<ul class="nav navbar-nav navbar-right"><li><a href="signout.php">Logout</a></li></ul>';
+		    			}
+		    			else
+		    			{
+		    				die('<ul class="nav navbar-nav"><li><a>You arent logged in.</a></li> <li><a href="signin.php">SignIn</a></li></ul>');
+		    			}
+	    			?>
 	    		</div>
 	    	</div>
 	    </div>
    </div>
 
+  <p>
+  	<div class="container">
+  		 <h2>Tax Benefit Allotment</h2>
+  <form class="form-horizontal" name="regForm" method="post" >
 
-   <p align="center">
-    <strong style="font-size:20px;">What do you want to apply for?</strong><br><br>
-    <a href="finalbenefits.php"><button type="button" class="btn btn-default">College Admissions</button></a>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="email">Unique ID:</label>
+      <div class="col-sm-5">
+        <input type="text" class="form-control" name="uniqueid" placeholder="Enter Unique ID" maxlength="10">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="email">Annual gross Income:</label>
+      <div class="col-sm-5">
+        <input type="number" class="form-control" name="income" placeholder="Enter Amount in Rupees">
+      </div>
+    </div>
+   
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default" >Calculate Benefit</button>
+      </div>
+    </div>
+<!--  -->
+
+  </form>
+  	</div>
   </p>
+
+  <?php
+
+  ?>
 
    
    

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>
-		Home-Reservation Portal
+		ApplicantLogin-Reservation Portal
 	</title>
 
 
@@ -55,10 +55,11 @@
 		{
 			$uni=$_POST['uniqueid'];
 			$password=$_POST['password'];
+			//setcookie('name',$uni,time()+36000);
 
 			if(!empty($uni)&&!empty($password))
 			{	
-					//$password=sha1($password);
+					$password=sha1($password);
 					$query='SELECT `password` FROM `applicantbasic` WHERE `UniqueId`=\''.$uni.'\'';
 					$result=mysql_query($query);
 
@@ -72,8 +73,8 @@
 						
 						if($password==$data['password'])
 						{
-							session_start();
-							header('Location: benefitgeneration.php');
+							setcookie('login',1,time()+36000);
+							header('Location: portal.php');
 						}
 						else
 						{

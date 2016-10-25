@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>
-		Loans-Reservation Portal
-	</title>
-
-
+	<title></title>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<script src="js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="bodyelements.css">
@@ -30,7 +26,8 @@
 	    		</div>
 	    		<div>
 	    			<?php 
-              $z=@$_COOKIE['loginins'];
+              $z=@$_COOKIE['login'];
+              setcookie('add',3,time()-30);
               if($z==1)
               {
                 echo '<ul class="nav navbar-nav navbar-right"><li><a href="signout.php">Logout</a></li></ul>';
@@ -44,43 +41,19 @@
 	    	</div>
 	    </div>
    </div>
-
-
-<div class="container">
-  <h2>Bank Loan Benefit Allotment</h2>
-  <form class="form-horizontal" name="regForm" method="post">
-
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="email">Unique ID:</label>
-      <div class="col-sm-5">
-        <input type="text" class="form-control" name="uniqueid" placeholder="Enter Unique ID" maxlength="10">
-      </div>
+   <div class="container">
+	<form method='POST' action="portal.php" >
+<div class="form-group">
+      <h2> Enter OTP</h2>
+      <input type="text" class="form-control" id="email" name="ot" placeholder="Enter your OTP"><br>
+      <input type="text" class="form-control" id="email" name="pin" placeholder="Enter your address PIN-Code">
     </div>
-
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="email">Loan Amount:</label>
-      <div class="col-sm-5">
-        <input type="number" class="form-control" name="loanamt" placeholder="Enter Amount in Rupees">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="email">Bank Name:</label>
-      <div class="col-sm-5">
-        <input type="text" class="form-control" name="loanamt" placeholder="Enter bank name">
-      </div>
-    </div>
-   
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-default" >Allot Benefit</button>
-      </div>
-    </div>
-
-
-  </form>
+    
+    
+  <!-- Trigger the modal with a button -->
+  <button type="submit" class="btn btn-info btn-lg" >Verify</button>
+</form>
 </div>
-   
-   
+
 </body>
 </html>

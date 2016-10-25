@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>
-		Home-Reservation Portal
+		Reservation Portal
 	</title>
 
 
@@ -29,9 +29,17 @@
 	    			<a href="#" class="navbar-brand">Cosmic Developers</a>
 	    		</div>
 	    		<div>
-	    			<ul class="nav navbar-nav">
-	    				<li><a href="HomeLayout.html">Back to Home</a></li>
-	    			</ul>
+	    			<?php 
+              $z=@$_COOKIE['login'];
+              if($z==1)
+              {
+                echo '<ul class="nav navbar-nav navbar-right"><li><a href="signout.php">Logout</a></li></ul>';
+              }
+              else
+              {
+                die('<ul class="nav navbar-nav"><li><a>You arent logged in.</a></li> <li><a href="signin.php">SignIn</a></li></ul>');
+              }
+            ?>
 	    		</div>
 	    	</div>
 	    </div>
@@ -41,6 +49,7 @@
 
     <?php
     include 'connect.php';
+    echo $z=@$_COOKIE['name'];
 
     if(isset($_POST['uniqueId'])&&isset($_POST['pan'])&&isset($_POST['aadhar'])&&isset($_POST['reserveId'])&&isset($_POST['address'])&&isset($_POST['income'])&&isset($_POST['memberNo']))
     {
@@ -54,31 +63,35 @@
       $uni=$_POST['uniqueId'];
       if(!empty($pan)&&!empty($aadhar)&&!empty($reserveId)&&!empty($address)&&!empty($income)&&!empty($memberNo)&&!empty($uni))
       {
-          $query="SELECT `UniqueId` FROM `applicantbasic` WHERE `UniqueId`='".$uni."'";
-          $result=mysql_query($query);
-          if(@mysql_num_rows($result)==0)
+          
+          //setcookie('name',3,time()-20);
+          //$query="SELECT `UniqueId` FROM `applicantbasic` WHERE `UniqueId`='".$uni."'";
+          //$result=mysql_query($query);
+          echo $z;
+          if(/*@mysql_num_rows($result)==0*/$uni!=$z)
           {
-            echo '<script>alert("Id does not exist")</script>';
-            echo "<script>location.href='benefitgeneration.php'</script>";
-            die();
+            echo '<script>console.log("hello");</script>';
+            echo '<script>alert("Id does not exist");</script>';
+            echo "<script>location.href='benefitgeneration.php';</script>";
           }
 
-          $query="SELECT `uniqueid` FROM `applicantmoreinfo` WHERE `uniqueid`='".$uni."'";
+          /*$query="SELECT `uniqueid` FROM `applicantmoreinfo` WHERE `uniqueid`='".$uni."'";
           $result=mysql_query($query);
           if(mysql_num_rows($result)==1)
           {
             echo '<script>alert("Id already exists")</script>';
             echo "<script>location.href='benefitgeneration.php'</script>";
             die();
-          }
-
-          $query="SELECT `PanNo` FROM `applicantmoreinfo` WHERE `PanNo`=".$pan."";
+          }*/
+          echo '<script>console.log("hello1");</script>';
+          /*$query="SELECT `PanNo` FROM `applicantmoreinfo` WHERE `PanNo`=".$pan."";
           $result=mysql_query($query);
           $query="SELECT `AadharId` FROM `applicantmoreinfo` WHERE `AadharId`=".$aadhar."";
-          $result1=mysql_query($query);
+          $result1=mysql_query($query);*/
           
-          if(@mysql_num_rows($result)==0&&@mysql_num_rows($result1)==0)
+         // if(@mysql_num_rows($result)==0/*&&@mysql_num_rows($result1)==0*/)
           {
+            echo '<script>console.log("hello2");</script>';
 
             /*if(strlen($memberNo)!=10)
             {
@@ -110,7 +123,8 @@
                     $query='INSERT INTO `applicantmoreinfo`(`uniqueid`,`PanNo`, `AadharId`, `reserveId`, `Address`,`Income`,`Familymembers`) VALUES (\''.$uni.'\',\''.$pan.'\',\''.$aadhar.'\',\''.$reserveId.'\',\''.$address.'\',\''.$income.'\',\''.$memberNo.'\''.')';
                     $result=mysql_query($query);
                      echo "<script>alert('Congratulations. You can go ahead now.')</script>";
-                     echo "<script>location.href='portal.php'</script>";
+                     aadharcheck($aadhar);
+                     echo "<script>location.href='aadharotp.php'</script>";
 
                    /* if(@$flag==1)
                     {
@@ -128,13 +142,13 @@
 
           }
         }
-        else
+     //   else
         {
           echo "<script>alert('Pan or Aadhar number already exists.')</script>";
         }
 
 
-      }
+    }
       else
       {
         //echo '<p align="center">Fill all the fields properly!</p>';
@@ -142,7 +156,56 @@
         //echo "<script>location.href='registration.php'</script>";
         //header('Location: registration.php');
       }
-  ?> 
+
+
+
+    function aadharcheck($aadhar)
+    {
+
+      //if(isset($_POST['adhar']))
+        //{  
+          //$aadhar=$_POST['adhar'];
+
+      $data= array( 
+              'aadhaar-id' => $aadhar,
+              'device-id' => "",
+              'certificate-type' => "preprod",
+              'channel' => "SMS",
+              'location' =>array( 
+                  'type' => "",
+                  'latitude' => "",
+                  'longitude' => "",
+                  'altitude' => "",
+                  'pincode' => "",
+              ),
+          
+      );
+      $url ="http://139.59.30.133:9090/otp";
+      $payload = json_encode($data);
+
+      $ch = curl_init( $url );
+      # Setup request to send json via POST.
+      curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
+      curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+      # Return response instead of printing.
+      curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+      # Send request.
+       $result = curl_exec($ch);
+      curl_close($ch);
+      $ress=json_decode($result, true);
+      $x=$ress['success'];
+        if($x==true)
+        {
+          echo $result;
+
+          setcookie("aadhar",$aadhar,time()+36000);
+        }else
+        {
+          echo 'Wrong Aadhar';
+        }
+      }
+//}
+?>
 
 
 <div class="container">

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>
-		Home-Reservation Portal
+		Registration-Reservation Portal
 	</title>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="bodyelements.css">
@@ -36,7 +36,8 @@
 
    <?php
     require 'connect.php';
-    session_start();
+
+    setcookie('login',1,time()+36000);
     if(isset($_POST['fname'])&&isset($_POST['lname'])&&isset($_POST['email'])&&isset($_POST['password'])&&isset($_POST['rpassword'])&&isset($_POST['mob']))
     {
       $flag=0;
@@ -50,30 +51,22 @@
       {
         $query="SELECT `mobile` FROM `applicantbasic` WHERE `mobile`=".$mob."";
           $result=mysql_query($query);
-          
+
           if(mysql_num_rows($result)==0)
           {
-
             if(strlen($mob)!=10)
             {
-              //echo '<p align="center">Enter only 10 digits</p>';
-              echo "<script>document.regForm.fname.value='".$fname."'</script>";
-              echo "<script>document.regForm.lname.value=".$lname."</script>";
-              echo "<script>document.regForm.email.value=".$email."</script>";
+              echo '<p align="center">Enter only 10 digits</p>';
+              echo '<script>location.href="registration.php"</script>';
+
+            }
+            if(strlen($password)<8 && strlen($rpassword)<8)
+            {
+              echo '<p align="center">Enter atleast 8  characters for the pass word</p>';
               
             }
-            if($password<8 && $rpassword<8)
+            else
             {
-              //echo '<p align="center">Enter atleast 8  characters</p>';
-              echo "<script>document.regForm.fname.value=".$fname."</script>";
-              echo "<script>document.regForm.lname.value=".$lname."</script>";
-              echo "<script>document.regForm.mob.value=".$mob."</script>";
-              echo "<script>document.regForm.email.value=".$email."</script>";
-            }
-            else{
-
-           
-
                   if($password==$rpassword)
                   {
                     $password=sha1($password);
@@ -81,7 +74,7 @@
                     $uni=strtolower($uni=substr($fname,0,1).substr($lname,0,1).substr($email,0,1).substr($password,16,5).substr($mob,1,2));
                     echo '<p align="center"><b>This is your Unique Id: <i><u>'.$uni.'</u></i></b><br> Please Save it somewhere for future reference</p>';
                      $query='INSERT INTO `applicantbasic`(`Date`, `name`, `email`, `password`,`uniqueid`,`Mobile`) VALUES (\''.date("d/m/y").'\',\''.$fname.' '.$lname.'\',\''.$email.'\',\''.$password.'\',\''.$uni.'\',\''.$mob.'\''.')';
-                     $_SESSION['uniqueid']=$uni;
+                    setcookie('name',$uni,time()+36000);
                     $result=mysql_query($query);
 
                     if(@$flag==1)
@@ -97,8 +90,7 @@
                     echo "<script>alert('Passwords do not match.')</script>";
                     echo "<script>location.href='registration.php'</script>";
                   }
-
-          }
+            }
         }
         else
         {
@@ -137,7 +129,10 @@
      <div class="form-group">
       <label class="control-label col-sm-2">Mobile no.</label>
       <div class="col-sm-3">
+      <div class="input-group">
+      <div class="input-group-addon">+91</div>
         <input type="tel" class="form-control" min="0000000000" name="mob" maxlength="10" placeholder="Enter 10 digit Mobile no." >
+      </div>
       </div>
     </div>
     <div class="form-group">

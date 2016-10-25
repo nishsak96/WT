@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>
-		Home-Reservation Portal
+		InstituteLogin-Reservation Portal
 	</title>
 
 
@@ -61,6 +61,8 @@
           //$password=md5($password);
           $query='SELECT `password` FROM `institution` WHERE `instituteId`=\''.$insid.'\'';
           $result=mysql_query($query);
+          //echo $data=mysql_fetch_assoc($result);
+          //echo $data['password'];
 
           if(mysql_num_rows($result)==0)
           {
@@ -71,8 +73,24 @@
             $data=mysql_fetch_assoc($result);
             if($password==$data['password'])
             {
-              session_start();
-              header('Location: benefitgeneration.php');
+              setcookie('loginins',1,time()+36000);
+              $query='SELECT `type` FROM `institution` WHERE `instituteId`=\''.$insid.'\'';
+              $result=mysql_query($query);
+              $data=mysql_fetch_assoc($result);
+              if($data['type']==1)
+              {
+                echo '<script>location.href="benefitchkcoll.php"</script>';
+              }
+              elseif ($data['type']==2) 
+              {
+                # code...
+                echo '<script>location.href="benefitchkloan.php"</script>';
+              }
+              elseif ($data['type']==3) 
+              {
+                # code...
+                echo '<script>location.href="benefitchktax.php"</script>';
+              }
             }
             else
             {

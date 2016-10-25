@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>
-		Home-Reservation Portal
+		Login-Reservation Portal
 	</title>
 
 
@@ -50,7 +50,7 @@
 
 	<br>
 	<p align="center">
-		Not registered yet? Please <a href="registration.php">Sign-in</a> here.
+		Not registered yet? Please <a href="registration.php">Register</a> here.
 	</p>
 
 </body>

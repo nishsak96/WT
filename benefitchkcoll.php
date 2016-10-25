@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>
-		Home-Reservation Portal
+		College-Reservation Portal
 	</title>
 
 
@@ -29,10 +29,17 @@
 	    			<a href="#" class="navbar-brand">Cosmic Developers</a>
 	    		</div>
 	    		<div>
-	    			<ul class="nav navbar-nav">
-	    				<li><a href="HomeLayout.html">Back to Home</a></li>
-	  
-	    			</ul>
+            <?php 
+              $z=@$_COOKIE['loginins'];
+              if($z==1)
+              {
+                echo '<ul class="nav navbar-nav navbar-right"><li><a href="signout.php">Logout</a></li></ul>';
+              }
+              else
+              {
+                die('<ul class="nav navbar-nav"><li><a>You arent logged in.</a></li> <li><a href="signin.php">SignIn</a></li></ul>');
+              }
+            ?>
 	    		</div>
 	    	</div>
 	    </div>

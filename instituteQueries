@@ -1,6 +1,6 @@
 All the institution queries here
 
-INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `UniqueId`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE056');
+INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `UniqueId`, `type`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE056',1);
 
 INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `UniqueId`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE056');
 
