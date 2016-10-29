@@ -88,78 +88,81 @@ if(!isset($_COOKIE['add']))
 {
  ob_start();
 
-if(isset($_POST['ot']))
+if(isset($_POST['ot'])&&isset($_POST['pin']))
 {
+	if(!empty($_POST['ot'])&&!empty($_POST['pin']))
+	{
 
-  $otp=$_POST['ot'];
-  $pin=$_POST['pin'];
-  $aadhar=$_COOKIE['aadhar'];
-  $data=array(
-        "consent"=> "Y",
-        "auth-capture-request" => array(
-            "aadhaar-id"=> $aadhar,
-            "location"=> array(
-                "type" =>"pincode",
-                "pincode" => $pin
-            ),
-            "modality"=> "otp",
-            "certificate-type"=> "preprod",
-            "otp"=>$otp
-        )
-    ); 
+		  $otp=$_POST['ot'];
+		  $pin=$_POST['pin'];
+		  $aadhar=$_COOKIE['aadhar'];
+		  $data=array(
+		        "consent"=> "Y",
+		        "auth-capture-request" => array(
+		            "aadhaar-id"=> $aadhar,
+		            "location"=> array(
+		                "type" =>"pincode",
+		                "pincode" => $pin
+		            ),
+		            "modality"=> "otp",
+		            "certificate-type"=> "preprod",
+		            "otp"=>$otp
+		        )
+		    ); 
 
-$url ="http://139.59.30.133:9090/kyc/raw";
-$payload = json_encode($data);
+		$url ="http://139.59.30.133:9090/kyc/raw";
+		$payload = json_encode($data);
 
-$ch = curl_init( $url );
-# Setup request to send json via POST.
-curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload);
-curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-# Return response instead of printing.
-curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-# Send request.
-$result = curl_exec($ch);
+		$ch = curl_init( $url );
+		# Setup request to send json via POST.
+		curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload);
+		curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+		# Return response instead of printing.
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+		# Send request.
+		$result = curl_exec($ch);
 
-//echo $result;
-curl_close($ch);
+		//echo $result;
+		curl_close($ch);
 
-$ress=json_decode($result, true);
-$x2=$ress['success'];
-$data=$ress['kyc']['photo'];
-$name=$ress['kyc']['poi']['name'];
-$dob=$ress['kyc']['poi']['dob'];
-$gender=$ress['kyc']['poi']['gender'];
-$addr=$ress['kyc']['poa']['house']." ".$ress['kyc']['poa']['street']." ".$ress['kyc']['poa']['vtc'];
-$addr2=$ress['kyc']['poa']['dist']." ".$ress['kyc']['poa']['pc'];
-$x=true;
-setcookie('add',3,time()+36000);
+		$ress=json_decode($result, true);
+		$x2=$ress['success'];
+		$data=$ress['kyc']['photo'];
+		$name=$ress['kyc']['poi']['name'];
+		$dob=$ress['kyc']['poi']['dob'];
+		$gender=$ress['kyc']['poi']['gender'];
+		$addr=$ress['kyc']['poa']['house']." ".$ress['kyc']['poa']['street']." ".$ress['kyc']['poa']['vtc'];
+		$addr2=$ress['kyc']['poa']['dist']." ".$ress['kyc']['poa']['pc'];
+		$x=true;
+		setcookie('add',3,time()+36000);
 
-//setcookie('pic',$data,time()+36000);
-echo '<div style="border-radius:15%; border:2px #000000 solid; width:300px; position:relative; left:40%;">';
-echo '<p align="center"><br><img src="data:image/jpg;base64,'.$data.'"/></p>';
-echo '<hr>';
-echo '<b><p align="center">'.$name.'</p></b>';
-echo '<hr>';
-echo '<b><p align="center">'.$dob.'</p></b>';
-echo '<b><p align="center">'.$gender.'</p></b>';
-echo '<hr>';
-echo '<b><p align="center">'.$addr.'';
-echo ' '.$addr2.'</p></b>';
-echo '</div>';
-$z=$_COOKIE['name'];
-$query="INSERT INTO `aadharinfo`(`uniqueid`, `image`, `dob`, `gender`, `address`) VALUES ('".$z."','".$data."','".$dob."','".$gender."','".$addr." ".$addr2."')";
-$queryresult=mysql_query($query);
+		//setcookie('pic',$data,time()+36000);
+		echo '<div style="border-radius:15%; border:2px #000000 solid; width:300px; position:relative; left:40%;">';
+		echo '<p align="center"><br><img src="data:image/jpg;base64,'.$data.'"/></p>';
+		echo '<hr>';
+		echo '<b><p align="center">'.$name.'</p></b>';
+		echo '<hr>';
+		echo '<b><p align="center">'.$dob.'</p></b>';
+		echo '<b><p align="center">'.$gender.'</p></b>';
+		echo '<hr>';
+		echo '<b><p align="center">'.$addr.'';
+		echo ' '.$addr2.'</p></b>';
+		echo '</div>';
+		$z=$_COOKIE['name'];
+		$query="INSERT INTO `aadharinfo`(`uniqueid`, `image`, `dob`, `gender`, `address`) VALUES ('".$z."','".$data."','".$dob."','".$gender."','".$addr." ".$addr2."')";
+		$queryresult=mysql_query($query);
 
 
-//echo '<br><img src="data:image/jpg;base64,'.$data.'"/>';
-		if($x==true)
-		{
-		//echo "true";
-		//header("Location: naya.php");
-		}
-		else
-		{
-		echo "nahi hua na";
+		//echo '<br><img src="data:image/jpg;base64,'.$data.'"/>';
+				if($x==true)
+				{
+				//echo "true";
+				//header("Location: naya.php");
+				}
+				else
+				{
+				echo "nahi hua na";
+				}
 		}
 	}
 }
@@ -196,7 +199,25 @@ else
 	echo '</div>';
 }
 ?>
+<div class="container">
+<div class=row>
+<div class="col-sm-5" >
+	
+<form class="form-horizontal">
+	<select class="form-control" name="beneselect">
+		<option>Educational benefits</option>
+		<option>Loan benefits</option>
+		<option>Taxation benefits</option>
+	</select>
 
-
+	 <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default">Register</button>
+      </div>
+    </div>
+</form>
+</div>
+</div>
+</div>
 </body>
 </html>

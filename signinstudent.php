@@ -74,6 +74,8 @@
 						if($password==$data['password'])
 						{
 							setcookie('login',1,time()+36000);
+							setcookie('add',2,time()+36000);
+							setcookie('name',$uni,time()+36000);
 							header('Location: portal.php');
 						}
 						else
