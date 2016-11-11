@@ -29,16 +29,8 @@
 	    		<div class="navbar-header">
 	    			<a href="#" class="navbar-brand">Cosmic Developers</a>
 	    		</div>
-	    		<div>
 	    		<?php
-	    				//include 'connect.php';
-	    				//$z=@$_COOKIE['name'];
-	    				//$query="SELECT `Name` FROM `applicantbasic` WHERE `UniqueId`=\"".$z."\"";
-	    				//$data=mysql_query($query);
-	    				//echo $result=mysql_fetch_row($data);
-	    				//echo '<ul class="nav navbar-nav"><li><a href="#">Hello,'.$data.'</a></li></ul>';
-	    			 
-		    			$z=@$_COOKIE['login'];
+	    		$z=@$_COOKIE['login'];
 		    			if($z==1)
 		    			{
 		    				echo '<ul class="nav navbar-nav navbar-right"><li><a href="signout.php">Logout</a></li></ul>';
@@ -47,177 +39,96 @@
 		    			{
 		    				die('<ul class="nav navbar-nav"><li><a>You arent logged in.</a></li> <li><a href="signin.php">SignIn</a></li></ul>');
 		    			}
-	    			?>
+		    	?>
 	    		</div>
-	    	</div>
-	    </div>
-   </div>
-
-	<!--<div class="container">
-	<div class="row">			
-			<form class="col-sm-offset-4 col-sm-5">
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Enter a thing to do .. " name="input_pl" id="input_pl">
-					<div class="input-group-btn">
-						<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Set Priority
-						</button>
-						<div class="dropdown-menu dropdown-menu-right" id="dropdownmenu">
-							<a class="dropdown-item" href="#" id='dropdi' name='1'>Low</a>
-							<a class="dropdown-item" href="#" id='dropdi' name='2'>Medium</a>
-							<a class="dropdown-item" href="#" id='dropdi' name="3">High</a>
-						</div>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
+</div>
+</div>
+<?php
+		
+		include 'connect.php';
 
 
+		$z=@$_COOKIE['name'];
+		$type=@$_COOKIE['class'];
 
-   <p align="center">
-   	<strong style="font-size:20px;">What do you want to apply for?</strong><br><br>
-    <a href="benefitchkcoll.php"><button type="button" class="btn btn-default">College Admissions</button></a>&nbsp;&nbsp;&nbsp;
-	<a href="benefitchkloan.php"><button type="submit" class="btn btn-default">Bank Loans</button></a>&nbsp;&nbsp;&nbsp;
-	<a href="benefitchktax.php"><button type="submit" class="btn btn-default">Income Tax</button></a>
-	</p>-->
+		echo '<div style="border-radius:15%; border:2px #000000 solid; width:300px; position:absolute; left:2%;">';
+		echo '<p align="center"><br><img src="./images/user/'.$z.'.jpg" width="150px" height="150px"/></p>';
 
-	 <?php
-	 include 'connect.php';
-if(!isset($_COOKIE['add']))
-{
- ob_start();
-
-if(isset($_POST['ot'])&&isset($_POST['pin']))
-{
-	if(!empty($_POST['ot'])&&!empty($_POST['pin']))
-	{
-
-		  $otp=$_POST['ot'];
-		  $pin=$_POST['pin'];
-		  $aadhar=$_COOKIE['aadhar'];
-		  $data=array(
-		        "consent"=> "Y",
-		        "auth-capture-request" => array(
-		            "aadhaar-id"=> $aadhar,
-		            "location"=> array(
-		                "type" =>"pincode",
-		                "pincode" => $pin
-		            ),
-		            "modality"=> "otp",
-		            "certificate-type"=> "preprod",
-		            "otp"=>$otp
-		        )
-		    ); 
-
-		$url ="http://139.59.30.133:9090/kyc/raw";
-		$payload = json_encode($data);
-
-		$ch = curl_init( $url );
-		# Setup request to send json via POST.
-		curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload);
-		curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-		# Return response instead of printing.
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-		# Send request.
-		$result = curl_exec($ch);
-
-		//echo $result;
-		curl_close($ch);
-
-		$ress=json_decode($result, true);
-		$x2=$ress['success'];
-		$data=$ress['kyc']['photo'];
-		$name=$ress['kyc']['poi']['name'];
-		$dob=$ress['kyc']['poi']['dob'];
-		$gender=$ress['kyc']['poi']['gender'];
-		$addr=$ress['kyc']['poa']['house']." ".$ress['kyc']['poa']['street']." ".$ress['kyc']['poa']['vtc'];
-		$addr2=$ress['kyc']['poa']['dist']." ".$ress['kyc']['poa']['pc'];
-		$x=true;
-		setcookie('add',3,time()+36000);
-
-		//setcookie('pic',$data,time()+36000);
-		echo '<div style="border-radius:15%; border:2px #000000 solid; width:300px; position:relative; left:40%;">';
-		echo '<p align="center"><br><img src="data:image/jpg;base64,'.$data.'"/></p>';
+		$query='SELECT * FROM `applicantbasic` WHERE `UniqueId`=\''.$z.'\'';
+		$result=mysql_query($query);
+		$data=mysql_fetch_assoc($result);
+		$name=$data['Name'];
+		$email=$data['email'];
+		$mob=$data['Mobile'];
 		echo '<hr>';
-		echo '<b><p align="center">'.$name.'</p></b>';
+		echo '<b><p align="center">Name : '.$name.'</p></b>';
 		echo '<hr>';
-		echo '<b><p align="center">'.$dob.'</p></b>';
-		echo '<b><p align="center">'.$gender.'</p></b>';
+		echo '<b><p align="center">Email : '.$email.'</p></b>';
+		echo '<b><p align="center">Mobile : '.$mob.'</p></b>';
 		echo '<hr>';
-		echo '<b><p align="center">'.$addr.'';
-		echo ' '.$addr2.'</p></b>';
+		echo '<b><p align="center">UniqueID : '.$z.'';
 		echo '</div>';
-		$z=$_COOKIE['name'];
-		$query="INSERT INTO `aadharinfo`(`uniqueid`, `image`, `dob`, `gender`, `address`) VALUES ('".$z."','".$data."','".$dob."','".$gender."','".$addr." ".$addr2."')";
-		$queryresult=mysql_query($query);
 
 
-		//echo '<br><img src="data:image/jpg;base64,'.$data.'"/>';
-				if($x==true)
-				{
-				//echo "true";
-				//header("Location: naya.php");
-				}
-				else
-				{
-				echo "nahi hua na";
-				}
+
+
+		
+
+		$referer=@$_SERVER['HTTP_REFERER'];
+		$x=strlen($referer);
+		$past=substr($referer, $x-17);
+
+		if($past=="signinstudent.php")
+		{
+			echo '<form method="post">
+		<div class="form-group" style="float:right; margin-right:46%;">
+	      <div class="col-sm-offset-2 col-sm-10" >
+	        <button type="submit" class="btn btn-default" name="prev">Previous Benefit</button>
+	      </div>
+    	</div>
+    </form>';
 		}
-	}
-}
-else
-{
-	$z=$_COOKIE['name'];
 
-	$query="SELECT `uniqueid`, `image`, `dob`, `gender`, `address` FROM  `aadharinfo` where `uniqueid`='".$z."'";
-	$queryresult=mysql_query($query);
-	$queryresult1=mysql_fetch_assoc($queryresult);
+		if(isset($_POST['prev']))
+		{
+			$query="SELECT `benefittype` FROM `applicantmoreinfo` WHERE `uniqueid`='".$z."'";
+			$result=mysql_query($query);
+			$data=mysql_fetch_assoc($result);
+			$benefittype=$data['benefittype'];
 
-	$data=$queryresult1['image'];
-	$dob=$queryresult1['dob'];
-	$gender=$queryresult1['gender'];
-	$addr=$queryresult1['address'];
+			echo '<div style="position:relative;"><br><p align="center">Your Previous benefit was <b>Class '.$benefittype.' </b> type.<br>';
+		
+		}
+		else if($past!="signinstudent.php")
+		{
+			
+			
+			echo '<div style="position:relative;"><br><p align="center">You have got <b>Class '.$type.' </b>Benefits <br>';
+			echo 'You can now directly contact the institute and provide your Reserve ID an Unique Id to attain Benefits.<br>
+			Please Submit a copy of all your <b>Documents </b> and <b> Income </b>Proof to Institute<br>
+			Please note if you not have provided Genuine Details institute has full right to Cancel your application</p></div>';
 
-	$query="SELECT `Name` FROM  `applicantbasic` where `UniqueId`='".$z."'";
-	$queryresult=mysql_query($query);
-	$queryresult1=mysql_fetch_assoc($queryresult);
+			$headers = "From:Reservation Portal";
 
-	$name=$queryresult1['Name'];
+			$mailmsg="Hello you have successfully registered for a benefit on the portal. You can now directly contact the institute and provide your Reserve ID an Unique Id to attain Benefits. \n Please Submit a copy of all your Documents and Income Proof to Institute. Please note if you not have provided Genuine Details institute has full right to Cancel your application";
+
+			mail($email,"Reservation Portal Notification",$mailmsg,$headers);
+
+		}
+		else
+		{}
+
+		
+		
+		
+	?>
+
+		<div style="float:right; margin-right:41.5%;">
+			<br>
+			<p align="center">Want to generate new benefits? <br> <a href="newbenefits.php">New benefits</a></p>
+		</div>
 
 	
 
-	echo '<div style="border-radius:15%; border:2px #000000 solid; width:300px; position:relative; left:40%; background-color:#c4c4c4;">';
-	echo '<p align="center"><br><img src="data:image/jpg;base64,'.$data.'"/></p>';
-	echo '<hr style="background-color:#000000;">';
-	echo '<b><p align="center">Name: '.$name.'</p></b>';
-	echo '<hr>';
-	echo '<b><p align="center"> DOB:'.$dob.'</b>';
-	echo '<b><br>'.$gender.'ale</p></b>';
-	echo '<hr>';
-	echo '<b><p align="center">'.$addr.'</p></b>';
-	echo '</div>';
-}
-?>
-<div class="container">
-<div class=row>
-<div class="col-sm-5" >
-	
-<form class="form-horizontal">
-	<select class="form-control" name="beneselect">
-		<option>Educational benefits</option>
-		<option>Loan benefits</option>
-		<option>Taxation benefits</option>
-	</select>
-
-	 <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-default">Register</button>
-      </div>
-    </div>
-</form>
-</div>
-</div>
-</div>
 </body>
 </html>

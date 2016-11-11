@@ -45,15 +45,95 @@
 	    </div>
    </div>
 
+      <p align="center">
+  <font color="red">
+    <b>
+        Please Verify all Documents before Generating Benefits
+    </b>
+  </font>
+</p>
+
+
+     <?php
+    include 'connect.php';
+    $z=$_COOKIE['ins'];
+    $finalmerit=0;
+    if(isset($_POST['income'])&&isset($_POST['uni']))
+    {
+        $income=$_POST['income'];
+        $uni=$_POST['uni'];
+
+        if(!empty($income)&&!empty($uni))
+        {
+                  $query="SELECT `benefittype`,`beneselect` FROM `applicantmoreinfo` WHERE `uniqueid`='".$uni."'";
+                  $result=mysql_query($query);
+                  $data=mysql_fetch_assoc($result);
+                  
+                  //echo '<p align="center"><b><u>'.$uni.' has been alotted Class '.$data['benefittype'].' benefit. </u></b></p>';
+
+                   /*$query="INSERT INTO `tax`(`uniqueid`, `income`) VALUES ('".$uni."','".$income."')";
+                  $result=mysql_query($query);
+
+                  $query="INSERT INTO `benefitset`(`instituteId`, `uniqueId`, `benefittype`) VALUES ('".$z."','".$uni."','".$data['benefittype']."')";
+                  $result=mysql_query($query);
+
+                  if($data['benefittype']=='A')
+                    echo '<p align="center"><b><u>'.$uni.' is required to pay 18% Taxes if eligible. </u></b></p>';
+                  if($data['benefittype']=='B')
+                    echo '<p align="center"><b><u>'.$uni.' is required to pay 15% Taxes if eligible. </u></b></p>';
+                  if($data['benefittype']=='C')
+                     echo '<p align="center"><b><u>'.$uni.' is required to pay 10% Taxes if eligible. </u></b></p>';
+
+*/
+                   if($data['beneselect']=='Tax')
+            {
+
+                  if($data['benefittype']=='C')
+                   { echo '<p align="center"><b><u>'.$uni.' is required to pay 20% Taxes if eligible. </u></b></p>';
+                  $finalmerit=20;}
+                  if($data['benefittype']=='B')
+                    {echo '<p align="center"><b><u>'.$uni.' is required to pay 15% Taxes if eligible. </u></b></p>';
+                  $finalmerit=15;
+                }
+                  if($data['benefittype']=='A')
+                    {echo '<p align="center"><b><u>'.$uni.' is required to pay 10% Taxes if eligible. </u></b></p>';
+                  $finalmerit=10;
+                }
+$query="INSERT INTO `tax`(`uniqueid`, `income`) VALUES ('".$uni."','".$income."')";
+                  $result=mysql_query($query);
+
+                  $query="INSERT INTO `benefitset`(`instituteId`, `uniqueId`, `benefittype`) VALUES ('".$z."','".$uni."','".$finalmerit."')";
+                  $result=mysql_query($query);
+            }
+            else
+            {
+              echo '<p align="center"><b>You dont belong here</b></p>';
+            }
+
+
+
+                  //echo '<p align="center">You are Registered. Please <a href="signin.php">Sign-in</a> now!</p>';
+         }
+    }
+
+
+
+  ?>
+
+
+
+
   <p>
   	<div class="container">
   		 <h2>Tax Benefit Allotment</h2>
   <form class="form-horizontal" name="regForm" method="post" >
 
+
+
     <div class="form-group">
       <label class="control-label col-sm-2" for="email">Unique ID:</label>
       <div class="col-sm-5">
-        <input type="text" class="form-control" name="uniqueid" placeholder="Enter Unique ID" maxlength="10">
+        <input type="text" class="form-control" name="uni" placeholder="Enter Unique ID" maxlength="10">
       </div>
     </div>
 

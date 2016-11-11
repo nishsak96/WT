@@ -33,9 +33,8 @@
    </div>
 
 
-
-   <?php
-    require 'connect.php';
+<?php
+    include 'connect.php';
 
     setcookie('login',1,time()+36000);
     if(isset($_POST['fname'])&&isset($_POST['lname'])&&isset($_POST['email'])&&isset($_POST['password'])&&isset($_POST['rpassword'])&&isset($_POST['mob']))
@@ -47,7 +46,10 @@
       $password=$_POST['password'];
       $rpassword=$_POST['rpassword'];
       $mob=$_POST['mob'];
-      if(!empty($fname)&&!empty($lname)&&!empty($email)&&!empty($password)&&!empty($rpassword)&&!empty($mob))
+      $img=$_FILES['photo']['name'];
+      $imgsize=$_FILES['photo']['size'];
+      $imgtype=$_FILES['photo']['type'];
+      if(!empty($fname)&&!empty($lname)&&!empty($email)&&!empty($password)&&!empty($rpassword)&&!empty($mob)&&!empty($img))
       {
         $query="SELECT `mobile` FROM `applicantbasic` WHERE `mobile`=".$mob."";
           $result=mysql_query($query);
@@ -56,10 +58,10 @@
           {
             if(strlen($mob)!=10)
             {
-              echo '<p align="center">Enter only 10 digits</p>';
+              echo '<script>alert("Enter 10 digits for mobile no");</script>';
               echo '<script>location.href="registration.php"</script>';
-
             }
+
             if(strlen($password)<8 && strlen($rpassword)<8)
             {
               echo '<p align="center">Enter atleast 8  characters for the pass word</p>';
@@ -72,7 +74,29 @@
                     $password=sha1($password);
                     $flag=1;
                     $uni=strtolower($uni=substr($fname,0,1).substr($lname,0,1).substr($email,0,1).substr($password,16,5).substr($mob,1,2));
-                    echo '<p align="center"><b>This is your Unique Id: <i><u>'.$uni.'</u></i></b><br> Please Save it somewhere for future reference</p>';
+
+                    $location="images/user/";
+             $allowedExts = array("gif", "jpeg", "jpg", "png");
+              $tempimg = explode(".",$img);
+              $extension = end($tempimg);
+              if ((($imgtype == "image/gif")
+              || ($imgtype == "image/jpeg")
+              || ($imgtype == "image/jpg")
+              || ($imgtype == "image/pjpeg")
+              || ($imgtype == "image/x-png")
+              || ($imgtype == "image/png"))
+              && ($imgsize < 1000000)
+              && in_array($extension, $allowedExts))
+              {
+                move_uploaded_file($_FILES["photo"]["tmp_name"], $location.$uni.".".$extension);  
+              }
+              else
+              {
+                echo '<script>alert("Upload a valid image file under 1MB");</script>';
+                echo '<script>location.href="registration.php"</script>';
+              }
+                    echo '<p align="center"><b>This is your Unique Id: <i><u>'.$uni.'</u></i></b><br> Please Save it somewhere for future reference<br>
+                    Please DONT LOGOUT before Benefits are generated</p>';
                      $query='INSERT INTO `applicantbasic`(`Date`, `name`, `email`, `password`,`uniqueid`,`Mobile`) VALUES (\''.date("d/m/y").'\',\''.$fname.' '.$lname.'\',\''.$email.'\',\''.$password.'\',\''.$uni.'\',\''.$mob.'\''.')';
                     setcookie('name',$uni,time()+36000);
                     $result=mysql_query($query);
@@ -110,10 +134,12 @@
     }
 
   ?>
+
+   
 <br>
 <div class="container">
   <h2>Register Here!</h2>
-  <form class="form-horizontal" name="regForm" method="post">
+  <form class="form-horizontal" name="regForm" method="post" enctype="multipart/form-data">
      <div class="form-group">
       <label class="control-label col-sm-2" for="email">FirstName:</label>
       <div class="col-sm-3">
@@ -154,15 +180,20 @@
       </div>
     </div>
     <div class="form-group">
+        <label class="control-label col-sm-2">Upload passport size photo:</label>
+        <div class="col-sm-3">
+        <input type="file" name="photo" class="form-control">
+      </div>
+    </div>
+    <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-default">Register</button>
       </div>
     </div>
   </form>
+<?php
 
-  <?php
-      
-  ?>
+?>
 </div>
 </body>
 </html>

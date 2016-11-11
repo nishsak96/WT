@@ -74,6 +74,7 @@
             if($password==$data['password'])
             {
               setcookie('loginins',1,time()+36000);
+              setcookie('ins', $insid, time()+36000);
               $query='SELECT `type` FROM `institution` WHERE `instituteId`=\''.$insid.'\'';
               $result=mysql_query($query);
               $data=mysql_fetch_assoc($result);

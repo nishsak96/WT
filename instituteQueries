@@ -1,23 +1,25 @@
 All the institution queries here
 
-INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `UniqueId`, `type`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE056',1);
+INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `InstituteId`,`password`, `type`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE056','nishitsaka',1);
 
-INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `UniqueId`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE056');
+INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `InstituteId`,`password`, `type`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE051','nishitsaka',2);
 
-INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `UniqueId`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE056');
+INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `InstituteId`,`password`, `type`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE052','nishitsaka',3);
 
-INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `UniqueId`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE056');
+INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `InstituteId`,`password`, `type`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE053','nishitsaka',1);
 
-INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `UniqueId`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE056');
+INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `InstituteId`,`password`, `type`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE054','nishitsaka',2);
 
-INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `UniqueId`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE056');
+INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `InstituteId`,`password`, `type`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE055','nishitsaka',3);
 
-INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `UniqueId`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE056');
+INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `InstituteId`,`password`, `type`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE057','nishitsaka',1);
 
-INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `UniqueId`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE056');
+INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `InstituteId`,`password`, `type`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE058','nishitsaka',2);
 
-INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `UniqueId`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE056');
+INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `InstituteId`,`password`, `type`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE059','nishitsaka',3);
 
-INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `UniqueId`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE056');
+INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `InstituteId`,`password`, `type`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE060','nishitsaka',1);
 
-INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `UniqueId`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE056');
+INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `InstituteId`,`password`, `type`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE061','nishitsaka',2);
+
+INSERT INTO `institution` (`Name`, `Address`, `Pincode`, `InstituteId`,`password`, `type`) VALUES ('Dwarkadas J. Sanghvi College of Engineering', 'Vileparle, Mumbai', '400010', 'DJSCE062','nishitsaka',3);

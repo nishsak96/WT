@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>
-		Reservation Portal
-	</title>
+  <title>
+    Reservation Portal
+  </title>
 
 
-	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<script src="js/bootstrap.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="bodyelements.css">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <script src="js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="bodyelements.css">
 </head>
 
 
 <body>
 
 
-	<div class="container-fluid" style="background-color:#c4c4c4; padding-top:10px; padding-bottom:10px; position:relative;">
-		<img src="PROKAB.jpg" alt="LOGO" height="127px" width="180px" style="margin-left:10px" />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
-		<font style="font-size:30px; top:50%; position:absolute;">Welcome to the Reservation Portal of India</font>
-		<img src="emblem.jpg" alt="IndianEmblem" height="127px" width="85px" style="position:absolute; right:50px;" />
-	</div>
+  <div class="container-fluid" style="background-color:#c4c4c4; padding-top:10px; padding-bottom:10px; position:relative;">
+    <img src="PROKAB.jpg" alt="LOGO" height="127px" width="180px" style="margin-left:10px" />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+    <font style="font-size:30px; top:50%; position:absolute;">Welcome to the Reservation Portal of India</font>
+    <img src="emblem.jpg" alt="IndianEmblem" height="127px" width="85px" style="position:absolute; right:50px;" />
+  </div>
 
 <br>
-	<div class="container-fluid" >
-	    <div class=" navbar navbar-default">
-	    	<div class="container">
-	    		<div class="navbar-header">
-	    			<a href="#" class="navbar-brand">Cosmic Developers</a>
-	    		</div>
-	    		<div>
-	    			<?php 
+  <div class="container-fluid" >
+      <div class=" navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <a href="#" class="navbar-brand">Cosmic Developers</a>
+          </div>
+          <div>
+            <?php 
               $z=@$_COOKIE['login'];
               if($z==1)
               {
@@ -40,9 +40,9 @@
                 die('<ul class="nav navbar-nav"><li><a>You arent logged in.</a></li> <li><a href="signin.php">SignIn</a></li></ul>');
               }
             ?>
-	    		</div>
-	    	</div>
-	    </div>
+          </div>
+        </div>
+      </div>
    </div>
 
 
@@ -50,29 +50,23 @@
     <?php
     include 'connect.php';
     $z=@$_COOKIE['name'];
-    $counter=0;
-
-    $referer=@$_SERVER['HTTP_REFERER'];
-    $x=strlen($referer);
-    $past=substr($referer, $x-10);
-    
-    if($past!="portal.php")
-    {
-    if(isset($_POST['uniqueId'])&&isset($_POST['pan'])&&isset($_POST['aadhar'])&&isset($_POST['reserveId'])&&isset($_POST['address'])&&isset($_POST['income'])&&isset($_POST['memberNo'])&&isset($_POST['beneselect']))
+    //$counter=0;
+    if(isset($_POST['address'])&&isset($_POST['income'])&&isset($_POST['memberNo'])&&isset($_POST['beneselect']))
     {
       $flag=0;
-      $pan=$_POST['pan'];
-      $aadhar=$_POST['aadhar'];
+
+
       $beneselect=$_POST['beneselect'];
-      $reserveId=$_POST['reserveId'];
+
       $address=$_POST['address'];
       $income=$_POST['income'];
       $memberNo=$_POST['memberNo'];
-      $uni=$_POST['uniqueId'];
+
       $img=$_FILES['incomeproof']['name'];
       $imgsize=$_FILES['incomeproof']['size'];
       $imgtype=$_FILES['incomeproof']['type'];
-      if(!empty($pan)&&!empty($aadhar)&&!empty($reserveId)&&!empty($address)&&!empty($income)&&!empty($memberNo)&&!empty($uni)&&!empty($beneselect)&&!empty($img))
+
+      if(!empty($address)&&!empty($income)&&!empty($memberNo)&&!empty($beneselect)&&!empty($img))
       {
           
           //setcookie('name',3,time()-20);
@@ -80,14 +74,14 @@
           //$result=mysql_query($query);
           //echo $z;
 
-          if(/*@mysql_num_rows($result)==0*/$uni!=$z)
+          /*if(@mysql_num_rows($result)==0||||||||||||||||||$uni!=$z)
           {
             echo '<script>console.log("hello");</script>';
             echo '<script>alert("Id does not exist");</script>';
            echo "<script>location.href='benefitgeneration.php';</script>";
           }
 
-          /*$query="SELECT `uniqueid` FROM `applicantmoreinfo` WHERE `uniqueid`='".$uni."'";
+          $query="SELECT `uniqueid` FROM `applicantmoreinfo` WHERE `uniqueid`='".$uni."'";
           $result=mysql_query($query);
           if(mysql_num_rows($result)==1)
           {
@@ -128,11 +122,11 @@
                   //if($address==$income)
                   //{
                     //$address=sha1($address);
-              $flag=1;
+                    $flag=1;
                     //$uni=strtolower($uni=substr($pan,0,1).substr($aadhar,0,1).substr($reserveId,0,1).substr($address,16,5).substr($memberNo,1,2));
-              echo '<p align="center"><b>This is your Unique Id: <i><u>'.$uni.'</u></i></b><br> Please Save it somewhere for future reference</p>';
+              echo '<p align="center"><b>This is your Unique Id: <i><u>'.$z.'</u></i></b><br> Please Save it somewhere for future reference</p>';
 
-              $location="./images/income/";
+              $location="images/income/";
               $allowedExts = array("gif", "jpeg", "jpg", "png");
               $tempimg = explode(".",$img);
               $extension = end($tempimg);
@@ -143,14 +137,14 @@
               || ($imgtype == "image/x-png")
               || ($imgtype == "image/png"))
               && ($imgsize < 1000000)
-              && in_array($extension, $allowedExts))
+              && @in_array($extension, $allowedExts))
               {
-                echo move_uploaded_file($_FILES["incomeproof"]["tmp_name"], $location.$uni.".".$extension);  
+                @move_uploaded_file($_FILES["photo"]["tmp_name"], $location.$uni.".".$extension);  
               }
               else
               {
                 echo '<script>alert("Upload a valid image file under 1MB");</script>';
-                echo '<script>location.href="benefitgeneration.php"</script>';
+                echo '<script>location.href="newbenefits.php"</script>';
               }
                     //echo $uni."\n";
                     
@@ -159,32 +153,22 @@
                     //$result=mysql_query($query);
                     $param=$income/$memberNo;
                     if($param<=62000)
-                    {  
-                      echo "<script>alert('You got Class A benefit')</script>";
-                      $benefittype="A";
-                    }
+                     {  echo "<script>alert('You got Class A benefit')</script>";
+                      $benefittype="A";}
                     if($param<=100000  && $param>62000)
-                    {
-                      echo "<script>alert('You got Class B benefit')</script>";
-                      $benefittype="B";
-                    }
+                     {echo "<script>alert('You got Class B benefit')</script>";
+                      $benefittype="B";}
                     if($param<=150000 && $param>100000)
-                    { 
-                      echo "<script>alert('You got Class C benefit')</script>";
-                      $benefittype="C";
-                    }
+                      {echo "<script>alert('You got Class C benefit')</script>";
+                      $benefittype="C";}
                     if($param>150000)
-                    {
-                      echo "<script>alert('You got Class D benefit: NOT ELIGIBLE FOR BENEFIT')</script>";
-                      $benefittype="D";
-                    }
+                      {echo "<script>alert('You got Class D benefit: NOT ELIGIBLE FOR BENFIT')</script>";
+                      $benefittype="D";}
 
-            
-
-                       $query='INSERT INTO `applicantmoreinfo`(`uniqueid`,`PanNo`, `AadharId`, `reserveId`, `Address`,`Income`,`Familymembers`,`benefittype`,`beneselect`) VALUES (\''.$uni.'\',\''.$pan.'\',\''.$aadhar.'\',\''.$reserveId.'\',\''.$address.'\',\''.$income.'\',\''.$memberNo.'\',\''.$benefittype.'\',\''.$beneselect.'\''.')';
+                        $query="UPDATE `applicantmoreinfo` SET `Address`='".$address."',`Income`='".$income."',`Familymembers`='".$memberNo."',`benefittype`='".$benefittype."',`beneselect`='".$beneselect."' WHERE `uniqueid`='".$z."'";
 
                         $result=mysql_query($query);
-                        setcookie('class',$benefittype,time()+3600);
+                        setcookie('class',$benefittype,time()+36000);
 
                     //$query='INSERT INTO `applicantmoreinfo`(`benefittype`) VALUES (\''.$benefittype.'\''.')';
                       echo "<script>alert('Congratulations. You can go ahead now.')</script>";
@@ -207,6 +191,7 @@
 
           }
         }
+     
 
 
     
@@ -220,94 +205,14 @@
       }
     }
 
-    }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
     
 
-    /*function aadharcheck($aadhar)
-    {
-
-      //if(isset($_POST['adhar']))
-        //{  
-          //$aadhar=$_POST['adhar'];
-
-      $data= array( 
-              'aadhaar-id' => $aadhar,
-              'device-id' => "",
-              'certificate-type' => "preprod",
-              'channel' => "SMS",
-              'location' =>array( 
-                  'type' => "",
-                  'latitude' => "",
-                  'longitude' => "",
-                  'altitude' => "",
-                  'pincode' => "",
-              ),
-          
-      );
-      $url ="http://139.59.30.133:9090/otp";
-      $payload = json_encode($data);
-
-      $ch = curl_init( $url );
-      # Setup request to send json via POST.
-      curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
-      curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-      # Return response instead of printing.
-      curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
-      # Send request.
-       $result = curl_exec($ch);
-      curl_close($ch);
-      $ress=json_decode($result, true);
-      $x=$ress['success'];
-        if($x==true)
-        {
-          echo $result;
-
-          setcookie("aadhar",$aadhar,time()+36000);
-        }else
-        {
-          echo 'Wrong Aadhar';
-        }
-      }*/
-//}
 ?>
 
 
 <div class="container">
-  <h2>Enter essential details</h2>
+  <h2>Check Your Benefits</h2>
   <form class="form-horizontal" name="regForm" method="post" enctype="multipart/form-data">
-
-   <div class="form-group">
-      <label class="control-label col-sm-2" >Unique ID:</label>
-      <div class="col-sm-5">
-        <input type="text" class="form-control" name="uniqueId" placeholder="Enter uniqueid again" maxlength="10">
-      </div>
-    </div>
-
-
-     <div class="form-group">
-      <label class="control-label col-sm-2">Pan no:</label>
-      <div class="col-sm-5">
-        <input type="text" class="form-control" name="pan" placeholder="Enter Pan no." maxlength="10" >
-      </div>
-    </div>
-
-
-    <div class="form-group">
-      <label class="control-label col-sm-2" >Aadhar no:</label>
-      <div class="col-sm-5">
-        <input type="number" class="form-control" name="aadhar" placeholder="Enter Aadhar No" maxlength="12">
-      </div>
-    </div>
-
-
-     <div class="form-group">
-      <label class="control-label col-sm-2" >Reserve ID:</label>
-      <div class="col-sm-5">
-        <input type="text" class="form-control" name="reserveId" placeholder="Enter 10 character Reserve ID" maxlength="10">
-      </div>
-    </div>
 
     <div class="form-group">
       <label class="control-label col-sm-2">Address:</label>
@@ -331,9 +236,6 @@
       </div>
     </div>
 
-   
-
-
      <div class="form-group">
         <label class="control-label col-sm-2" for="pwd">Upload Income proof:</label>
         <div class="col-sm-3">
@@ -343,7 +245,7 @@
 
 
     <div class="form-group">
-      <label class="control-label col-sm-2">Enter the Type of Benefit you Want:</label>  
+      <label class="control-label col-sm-2">Benefit type you want:</label>  
       <div class="col-sm-5">
         <select class="form-control" name="beneselect">
           <option>Education</option>
@@ -352,7 +254,7 @@
         </select>
       </div>
     </div>
-
+        
 
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
@@ -361,11 +263,6 @@
     </div>
 
 
-  </form>
-</div>
    
 
-</form>
-   
-</body>
-</html>
+  </form>
